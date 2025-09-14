@@ -40,9 +40,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'accounts',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -78,13 +81,14 @@ WSGI_APPLICATION = 'eventsphere_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'eventsphere_db',
-        'USER': 'root',          
-        'PASSWORD': '2007bassey@+',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': 'eventspheredb',      
+        'USER': 'root',               
+        'PASSWORD': '2007bassey@+',  
+        'HOST': 'localhost',         
+        'PORT': '3306',               
     }
 }
+
 
 
 # Password validation
@@ -135,3 +139,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+# CORS_ALLOWED_ORIGINS = ["*"]
+CORS_ALLOW_ALL_ORIGINS = True
