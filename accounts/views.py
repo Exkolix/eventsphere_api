@@ -4,12 +4,12 @@ from django.shortcuts import render
 from rest_framework import generics, permissions
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.models import User
-from .serializers import UserSerializer
+from .serializers import UserSerializer, SignupSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from .models import Event, Registration
 from .serializers import EventSerializer, RegistrationSerializer
-from .permissions import IsOrganizerOrAdmin
+from .permissions import IsOrganizerOrAdmin,IsAdmin
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -18,7 +18,7 @@ from .serializers import CurrentUserSerializer
 # Signup
 class SignupView(generics.CreateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = SignupSerializer
     permission_classes = [AllowAny]
 
     def create(self, request, *args, **kwargs):
@@ -102,3 +102,14 @@ class EventDeleteView(generics.DestroyAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     permission_classes = [IsOrganizerOrAdmin]
+
+
+class AdminOnlyView(APIView):
+    """
+    Example endpoint only accessible by admins
+    """
+    permission_classes = [IsAdmin]
+
+    def get(self, request):
+        users = User.objects.all().values("id", "username", "email")
+        return Response({"message": "Hello Admin!", "users": list(users)})

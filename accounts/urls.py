@@ -10,6 +10,7 @@ from .views import (
     RegistrationListView,
     RegistrationDeleteView,
     CurrentUserView,
+    AdminOnlyView,
 )
 from rest_framework.authtoken.views import obtain_auth_token
 
@@ -18,6 +19,7 @@ urlpatterns = [
     path('signup/', SignupView.as_view(), name='signup'),
     path('login/', obtain_auth_token, name='login'),
     path('users/me/', CurrentUserView.as_view(), name='current-user'),
+    path('admin/users/', AdminOnlyView.as_view(), name='admin-users'),
 
     # Events
     path('events/create/', EventCreateView.as_view(), name='event-create'),
